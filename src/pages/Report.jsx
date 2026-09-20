@@ -1,0 +1,59 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import api from '../api/client';
+
+export default function Report() {
+  const { id } = useParams();
+  const [report, setReport] = useState(null);
+
+  useEffect(() => {
+    api.get(`/reviews/report/${id}`).then((res) => setReport(res.data));
+  }, [id]);
+
+  if (!report) return <div className="p-8 text-stone-400 text-sm">Loading…</div>;
+
+  return (
+    <div className="p-8 max-w-2xl">
+      <div className="bg-white border border-stone-200 rounded-2xl p-10">
+        <div className="flex items-start justify-between mb-8 pb-6 border-b border-stone-100">
+          <div>
+            <div className="font-serif italic text-2xl">Verification Report</div>
+            <div className="text-xs text-stone-400 mt-1">{report.caseNumber}</div>
+          </div>
+          <div className={`px-3 py-1.5 rounded-full text-xs font-medium ${
+            report.overallResult === 'VERIFIED' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
+          }`}>
+            {report.overallResult}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-6 mb-8 text-sm">
+          <div>
+            <div className="text-xs text-stone-400">Candidate</div>
+            <div className="font-medium mt-0.5">{report.candidate}</div>
+          </div>
+          <div>
+            <div className="text-xs text-stone-400">Client</div>
+            <div className="font-medium mt-0.5">{report.client}</div>
+          </div>
+        </div>
+
+        <div className="space-y-3 mb-8">
+          {report.checks.map((c, idx) => (
+            <div key={idx} className="flex items-center justify-between py-3 border-b border-stone-50">
+              <div>
+                <div className="text-sm font-medium capitalize">{c.type}</div>
+                {c.verifiedBy && <div className="text-xs text-stone-400">Verified by {c.verifiedBy}</div>}
+              </div>
+              <div className="text-sm text-emerald-600 font-medium capitalize">{c.result}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-xs text-stone-400 text-right">
+          Generated {new Date(report.generatedAt).toLocaleDateString()}
+        </div>
+      </div>
+    </div>
+  );
+}
