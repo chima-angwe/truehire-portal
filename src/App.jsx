@@ -20,8 +20,6 @@ function Protected({ children, blockedFor = [] }) {
   return <Layout>{children}</Layout>;
 }
 
-// Verifiers land on their own task queue, not the org-wide dashboard —
-// nothing in the research suggests verifiers should see cases beyond their own.
 function Home() {
   const { user } = useAuth();
   if (!user) return <Navigate to="/login" replace />;
@@ -32,7 +30,7 @@ function Home() {
 export default function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />

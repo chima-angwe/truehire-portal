@@ -17,13 +17,13 @@ export default function ReviewTask() {
     navigate(`/cases/${res.data.task.case}`);
   }
 
-  if (!task) return <div className="p-8 text-stone-400 text-sm">Loading…</div>;
+  if (!task) return <div className="p-4 sm:p-6 lg:p-8 text-stone-400 text-sm">Loading…</div>;
 
   const checklistDone = task.checklist?.filter((i) => i.done).length || 0;
   const checklistTotal = task.checklist?.length || 0;
 
   return (
-    <div className="p-8 max-w-xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-xl">
       <h1 className="font-serif italic text-2xl mb-1">Review Verification</h1>
       <p className="text-stone-500 text-sm mb-6 capitalize">{task.type} verification — submitted by {task.assignedTo?.name}</p>
 
@@ -46,7 +46,7 @@ export default function ReviewTask() {
         </div>
       )}
 
-      <div className="bg-white border border-stone-200 rounded-xl p-6 space-y-3 mb-4">
+      <div className="bg-white border border-stone-200 rounded-xl p-4 sm:p-6 space-y-3 mb-4">
         <Row label="Contact person" value={task.findings?.contactPerson} />
         <Row label="Contact detail" value={task.findings?.contactDetail} />
         <Row label="Relationship" value={task.findings?.relationship} />
@@ -69,7 +69,7 @@ export default function ReviewTask() {
         className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-gold"
       />
 
-      <div className="flex gap-3">
+      <div className="flex flex-col sm:flex-row gap-3">
         <button onClick={() => handleDecision('approved')} className="bg-emerald-600 text-white rounded-lg px-5 py-2.5 text-sm font-medium hover:bg-emerald-700">
           Approve
         </button>
@@ -88,9 +88,9 @@ export default function ReviewTask() {
 
 function Row({ label, value }) {
   return (
-    <div className="flex justify-between text-sm border-b border-stone-50 pb-2">
+    <div className="flex justify-between gap-4 text-sm border-b border-stone-50 pb-2">
       <span className="text-stone-400">{label}</span>
-      <span className="text-ink">{value || '—'}</span>
+      <span className="text-ink text-right min-w-0 break-words">{value || '—'}</span>
     </div>
   );
 }

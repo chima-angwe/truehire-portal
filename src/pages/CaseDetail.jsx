@@ -25,7 +25,7 @@ export default function CaseDetail() {
 
   useEffect(() => { load(); }, [id]);
 
-  if (!data) return <div className="p-8 text-stone-400 text-sm">Loading…</div>;
+  if (!data) return <div className="p-4 sm:p-6 lg:p-8 text-stone-400 text-sm">Loading…</div>;
   const { case: c, tasks } = data;
 
   async function submitPending(taskId) {
@@ -74,7 +74,7 @@ export default function CaseDetail() {
   const dueSoon = c.dueDate && new Date(c.dueDate) < new Date() && c.status !== 'completed';
 
   return (
-    <div className="p-8 max-w-3xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-3xl">
       <div className="mb-6">
         <div className="text-xs text-stone-400">{c.caseNumber}</div>
         <h1 className="font-serif italic text-2xl mt-1">{c.candidate?.name}</h1>
@@ -95,14 +95,14 @@ export default function CaseDetail() {
           const checklistTotal = t.checklist?.length || 0;
 
           return (
-            <div key={t._id} className="bg-white border border-stone-200 rounded-xl p-5">
-              <div className="flex items-center justify-between mb-3">
+            <div key={t._id} className="bg-white border border-stone-200 rounded-xl p-4 sm:p-5">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-3">
                 <div>
                   <div className="font-medium capitalize text-sm">{t.type} Verification</div>
                   {t.assignedTo && <div className="text-xs text-stone-400 mt-0.5">Assigned to {t.assignedTo.name}</div>}
                   {t.reviewer && <div className="text-xs text-stone-400">Reviewer: {t.reviewer.name}</div>}
                 </div>
-                <div className="flex items-center gap-3 flex-wrap justify-end">
+                <div className="flex items-center gap-3 flex-wrap sm:justify-end">
                   <StatusBadge status={t.status} />
                   {actionFor(t)}
                 </div>

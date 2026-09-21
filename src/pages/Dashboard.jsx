@@ -12,7 +12,7 @@ export default function Dashboard() {
     api.get('/dashboard').then((res) => setData(res.data));
   }, []);
 
-  if (!data) return <div className="p-8 text-stone-400 text-sm">Loading…</div>;
+  if (!data) return <div className="p-4 sm:p-6 lg:p-8 text-stone-400 text-sm">Loading…</div>;
 
   const cards = [
     { label: 'Active Cases', value: data.counts.total, accent: 'text-ink' },
@@ -27,11 +27,11 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="p-8 max-w-6xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-6xl">
       <h1 className="font-serif italic text-2xl mb-1">Good day, {user?.name?.split(' ')[0]}</h1>
-      <p className="text-stone-500 text-sm mb-8">Here's what's happening across your verification operation.</p>
+      <p className="text-stone-500 text-sm mb-6 sm:mb-8">Here's what's happening across your verification operation.</p>
 
-      <div className="grid grid-cols-3 md:grid-cols-5 gap-4 mb-10">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 mb-8 sm:mb-10">
         {cards.map((c) => (
           <div key={c.label} className="bg-white border border-stone-200 rounded-xl p-4">
             <div className={`text-2xl font-semibold ${c.accent}`}>{c.value}</div>
@@ -41,32 +41,34 @@ export default function Dashboard() {
       </div>
 
       <div className="bg-white border border-stone-200 rounded-xl overflow-hidden">
-        <div className="px-5 py-4 border-b border-stone-200 flex items-center justify-between">
+        <div className="px-4 sm:px-5 py-4 border-b border-stone-200 flex items-center justify-between">
           <h2 className="font-medium text-sm">Recent Cases</h2>
           <Link to="/cases" className="text-xs text-gold hover:underline">View all →</Link>
         </div>
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-[480px] text-sm">
           <thead>
             <tr className="text-left text-xs text-stone-400 border-b border-stone-100">
-              <th className="px-5 py-2.5 font-normal">Case</th>
-              <th className="px-5 py-2.5 font-normal">Candidate</th>
-              <th className="px-5 py-2.5 font-normal">Client</th>
-              <th className="px-5 py-2.5 font-normal">Status</th>
+              <th className="px-3 sm:px-5 py-2.5 font-normal">Case</th>
+              <th className="px-3 sm:px-5 py-2.5 font-normal">Candidate</th>
+              <th className="px-3 sm:px-5 py-2.5 font-normal">Client</th>
+              <th className="px-3 sm:px-5 py-2.5 font-normal">Status</th>
             </tr>
           </thead>
           <tbody>
             {data.recentCases.map((c) => (
               <tr key={c._id} className="border-b border-stone-50 hover:bg-stone-50">
-                <td className="px-5 py-3">
+                <td className="px-3 sm:px-5 py-3">
                   <Link to={`/cases/${c._id}`} className="text-gold hover:underline">{c.caseNumber}</Link>
                 </td>
-                <td className="px-5 py-3">{c.candidate?.name}</td>
-                <td className="px-5 py-3 text-stone-500">{c.client?.name}</td>
-                <td className="px-5 py-3"><StatusBadge status={c.status} /></td>
+                <td className="px-3 sm:px-5 py-3">{c.candidate?.name}</td>
+                <td className="px-3 sm:px-5 py-3 text-stone-500">{c.client?.name}</td>
+                <td className="px-3 sm:px-5 py-3"><StatusBadge status={c.status} /></td>
               </tr>
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

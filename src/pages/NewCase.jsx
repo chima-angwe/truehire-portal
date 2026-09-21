@@ -32,11 +32,11 @@ export default function NewCase() {
   }
 
   return (
-    <div className="p-8 max-w-xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-xl">
       <h1 className="font-serif italic text-2xl mb-1">New Verification Request</h1>
       <p className="text-stone-500 text-sm mb-6">Simulates a client submitting a candidate for screening.</p>
 
-      <form onSubmit={handleSubmit} className="bg-white border border-stone-200 rounded-xl p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-white border border-stone-200 rounded-xl p-4 sm:p-6 space-y-4">
         <div>
           <label className="text-xs font-medium text-stone-500">Candidate name</label>
           <input

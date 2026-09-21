@@ -20,16 +20,16 @@ export default function Cases() {
   );
 
   return (
-    <div className="p-8 max-w-5xl">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-5xl">
+      <div className="flex items-center justify-between gap-3 mb-6">
         <h1 className="font-serif italic text-2xl">Cases</h1>
-        <Link to="/cases/new" className="bg-ink text-paper rounded-lg px-4 py-2 text-sm font-medium hover:bg-stone-800">
+        <Link to="/cases/new" className="bg-ink text-paper rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap hover:bg-stone-800">
           + New Request
         </Link>
       </div>
 
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex gap-2">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+        <div className="flex flex-wrap gap-2">
           {FILTERS.map((f) => (
             <button
               key={f} onClick={() => setFilter(f)}
@@ -43,40 +43,42 @@ export default function Cases() {
         </div>
         <input
           placeholder="Search candidate…" value={search} onChange={(e) => setSearch(e.target.value)}
-          className="border border-stone-300 rounded-lg px-3 py-1.5 text-sm w-56 focus:outline-none focus:ring-2 focus:ring-gold"
+          className="border border-stone-300 rounded-lg px-3 py-1.5 text-sm w-full md:w-56 md:shrink-0 focus:outline-none focus:ring-2 focus:ring-gold"
         />
       </div>
 
       <div className="bg-white border border-stone-200 rounded-xl overflow-hidden">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[640px] text-sm">
           <thead>
             <tr className="text-left text-xs text-stone-400 border-b border-stone-100">
-              <th className="px-5 py-2.5 font-normal">Case</th>
-              <th className="px-5 py-2.5 font-normal">Candidate</th>
-              <th className="px-5 py-2.5 font-normal">Client</th>
-              <th className="px-5 py-2.5 font-normal">Due</th>
-              <th className="px-5 py-2.5 font-normal">Status</th>
+              <th className="px-3 sm:px-5 py-2.5 font-normal">Case</th>
+              <th className="px-3 sm:px-5 py-2.5 font-normal">Candidate</th>
+              <th className="px-3 sm:px-5 py-2.5 font-normal">Client</th>
+              <th className="px-3 sm:px-5 py-2.5 font-normal">Due</th>
+              <th className="px-3 sm:px-5 py-2.5 font-normal">Status</th>
             </tr>
           </thead>
           <tbody>
             {visible.map((c) => (
               <tr key={c._id} className="border-b border-stone-50 hover:bg-stone-50">
-                <td className="px-5 py-3">
+                <td className="px-3 sm:px-5 py-3">
                   <Link to={`/cases/${c._id}`} className="text-gold hover:underline">{c.caseNumber}</Link>
                 </td>
-                <td className="px-5 py-3">{c.candidate?.name}</td>
-                <td className="px-5 py-3 text-stone-500">{c.client?.name}</td>
-                <td className="px-5 py-3 text-stone-500">
+                <td className="px-3 sm:px-5 py-3">{c.candidate?.name}</td>
+                <td className="px-3 sm:px-5 py-3 text-stone-500">{c.client?.name}</td>
+                <td className="px-3 sm:px-5 py-3 text-stone-500">
                   {c.dueDate ? new Date(c.dueDate).toLocaleDateString() : '—'}
                 </td>
-                <td className="px-5 py-3"><StatusBadge status={c.status} /></td>
+                <td className="px-3 sm:px-5 py-3"><StatusBadge status={c.status} /></td>
               </tr>
             ))}
             {visible.length === 0 && (
-              <tr><td colSpan={5} className="px-5 py-8 text-center text-stone-400 text-sm">No cases found</td></tr>
+              <tr><td colSpan={5} className="px-3 sm:px-5 py-8 text-center text-stone-400 text-sm">No cases found</td></tr>
             )}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
     </div>
   );

@@ -57,10 +57,10 @@ export default function VerifierWorkspace() {
     navigate(`/cases/${res.data.case}`);
   }
 
-  if (!task) return <div className="p-8 text-stone-400 text-sm">Loading…</div>;
+  if (!task) return <div className="p-4 sm:p-6 lg:p-8 text-stone-400 text-sm">Loading…</div>;
 
   return (
-    <div className="p-8 max-w-xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-xl">
       <h1 className="font-serif italic text-2xl mb-1">Verification Workspace</h1>
       <p className="text-stone-500 text-sm mb-6 capitalize">{task.type} verification</p>
 
@@ -90,21 +90,21 @@ export default function VerifierWorkspace() {
         {task.evidenceNotes?.map((e, i) => (
           <div key={i} className="text-sm mb-1"><strong>{e.label}:</strong> {e.note}</div>
         ))}
-        <div className="flex gap-2 mt-2">
+        <div className="flex flex-col sm:flex-row gap-2 mt-2">
           <input
             placeholder="Label" value={evidence.label} onChange={(e) => setEvidence({ ...evidence, label: e.target.value })}
-            className="flex-1 border border-stone-300 rounded-lg px-2.5 py-1.5 text-xs"
+            className="flex-1 min-w-0 border border-stone-300 rounded-lg px-2.5 py-1.5 text-xs"
           />
           <input
             placeholder="Note / reference" value={evidence.note} onChange={(e) => setEvidence({ ...evidence, note: e.target.value })}
-            className="flex-1 border border-stone-300 rounded-lg px-2.5 py-1.5 text-xs"
+            className="flex-1 min-w-0 border border-stone-300 rounded-lg px-2.5 py-1.5 text-xs"
           />
           <button type="button" onClick={addEvidence} className="text-xs bg-stone-100 px-3 py-1.5 rounded-lg hover:bg-stone-200">Add</button>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white border border-stone-200 rounded-xl p-6 space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} className="bg-white border border-stone-200 rounded-xl p-4 sm:p-6 space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="text-xs font-medium text-stone-500">Contact person</label>
             <input

@@ -5,21 +5,21 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
-    const stored = localStorage.getItem('truehire_user');
+    const stored = localStorage.getItem('truequo_user');
     return stored ? JSON.parse(stored) : null;
   });
 
   async function login(email, password) {
     const { data } = await api.post('/auth/login', { email, password });
-    localStorage.setItem('truehire_token', data.token);
-    localStorage.setItem('truehire_user', JSON.stringify(data.user));
+    localStorage.setItem('truequo_token', data.token);
+    localStorage.setItem('truequo_user', JSON.stringify(data.user));
     setUser(data.user);
     return data.user;
   }
 
   function logout() {
-    localStorage.removeItem('truehire_token');
-    localStorage.removeItem('truehire_user');
+    localStorage.removeItem('truequo_token');
+    localStorage.removeItem('truequo_user');
     setUser(null);
   }
 

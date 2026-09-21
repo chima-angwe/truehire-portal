@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
-  const [email, setEmail] = useState('ops@truehire.com');
+  const [email, setEmail] = useState('ops@truequo.com');
   const [password, setPassword] = useState('password123');
   const [error, setError] = useState('');
   const { login } = useAuth();
@@ -21,13 +21,13 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-ink">
+    <div className="min-h-screen flex items-center justify-center bg-ink px-4 py-8">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <div className="font-serif italic text-3xl text-paper">TrueHire</div>
+          <div className="font-serif italic text-3xl text-paper">TrueQuo</div>
           <div className="text-sm text-stone-400 mt-1">Verification Operations</div>
         </div>
-        <form onSubmit={handleSubmit} className="bg-paper rounded-2xl p-8 space-y-4">
+        <form onSubmit={handleSubmit} className="bg-paper rounded-2xl p-6 sm:p-8 space-y-4">
           <div>
             <label className="text-sm font-medium text-stone-600">Email</label>
             <input
