@@ -4,13 +4,24 @@ import api from '../api/client';
 
 const CHECK_TYPES = ['employment', 'education', 'identity', 'address', 'reference'];
 
+// Mirrors VerificationTask.js's DEFAULT_CLAIM_FIELDS on the backend — keep in sync.
+// These are the fields the candidate/client is CLAIMING, which is what a verifier
+// will later check findings against.
+const CLAIM_FIELDS = {
+  employment: ['Employer', 'Position', 'Start Date', 'End Date'],
+  education: ['Institution', 'Qualification', 'Graduation Year'],
+  identity: ['ID Type', 'ID Number'],
+  address: ['Claimed Address'],
+  reference: ['Referee Name', 'Referee Relationship', 'Referee Contact'],
+};
+
 export default function NewCase() {
   const [clients, setClients] = useState([]);
   const [form, setForm] = useState({ candidateName: '', candidateEmail: '', client: '', checks: [], dueDate: '' });
+  const [claims, setClaims] = useState({}); // { employment: { Employer: '...', Position: '...' }, ... }
   const navigate = useNavigate();
 
   useEffect(() => {
-    // reuse dashboard's populate to grab known client orgs from existing cases
     api.get('/cases').then((res) => {
       const unique = new Map();
       res.data.forEach((c) => unique.set(c.client._id, c.client));
@@ -25,9 +36,16 @@ export default function NewCase() {
     }));
   }
 
+  function updateClaim(type, label, value) {
+    setClaims((prev) => ({
+      ...prev,
+      [type]: { ...(prev[type] || {}), [label]: value },
+    }));
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
-    const res = await api.post('/cases', form);
+    const res = await api.post('/cases', { ...form, claims });
     navigate(`/cases/${res.data.case._id}`);
   }
 
@@ -79,6 +97,31 @@ export default function NewCase() {
             ))}
           </div>
         </div>
+
+        {form.checks.length > 0 && (
+          <div className="space-y-4 border-t border-stone-100 pt-4">
+            <div className="text-xs font-medium text-stone-500">
+              What's being claimed — this is what the verifier will check against
+            </div>
+            {form.checks.map((type) => (
+              <div key={type} className="bg-stone-50 rounded-lg p-3">
+                <div className="text-xs font-medium capitalize text-stone-600 mb-2">{type}</div>
+                <div className="grid grid-cols-2 gap-2">
+                  {CLAIM_FIELDS[type].map((label) => (
+                    <input
+                      key={label}
+                      placeholder={label}
+                      value={claims[type]?.[label] || ''}
+                      onChange={(e) => updateClaim(type, label, e.target.value)}
+                      className="border border-stone-300 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-gold"
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         <div>
           <label className="text-xs font-medium text-stone-500">Due date</label>
           <input

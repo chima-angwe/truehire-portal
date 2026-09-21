@@ -64,6 +64,20 @@ export default function VerifierWorkspace() {
       <h1 className="font-serif italic text-2xl mb-1">Verification Workspace</h1>
       <p className="text-stone-500 text-sm mb-6 capitalize">{task.type} verification</p>
 
+      {task.claim?.length > 0 && (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
+          <div className="text-xs font-medium text-amber-700 mb-2">What was claimed — check this against what you find</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
+            {task.claim.map((c, i) => (
+              <div key={i} className="text-sm">
+                <span className="text-stone-500">{c.label}: </span>
+                <span className="text-stone-800 font-medium">{c.value || '—'}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {reworkNote && (
         <div className="bg-rose-50 border border-rose-200 rounded-xl p-4 mb-4">
           <div className="text-xs font-medium text-rose-700 mb-1">Sent back for rework</div>
@@ -133,7 +147,7 @@ export default function VerifierWorkspace() {
         </div>
 
         <div>
-          <label className="text-xs font-medium text-stone-500">Confirmed?</label>
+          <label className="text-xs font-medium text-stone-500">Does what you found match the claim above?</label>
           <div className="flex gap-3 mt-1.5">
             {['yes', 'no'].map((opt) => (
               <button
@@ -154,7 +168,7 @@ export default function VerifierWorkspace() {
             value={form.notes} onChange={(e) => update('notes', e.target.value)}
             rows={3}
             className="mt-1 w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold"
-            placeholder="Anything relevant to the review…"
+            placeholder="If it doesn't match, explain what's different…"
           />
         </div>
 

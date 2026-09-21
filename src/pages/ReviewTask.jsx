@@ -33,6 +33,20 @@ export default function ReviewTask() {
         </div>
       )}
 
+      {task.claim?.length > 0 && (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
+          <div className="text-xs font-medium text-amber-700 mb-2">What was claimed</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
+            {task.claim.map((c, i) => (
+              <div key={i} className="text-sm">
+                <span className="text-stone-500">{c.label}: </span>
+                <span className="text-stone-800 font-medium">{c.value || '—'}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {checklistTotal > 0 && (
         <div className="bg-white border border-stone-200 rounded-xl p-4 mb-4">
           <div className="text-xs text-stone-400 mb-2">Checklist ({checklistDone}/{checklistTotal})</div>
@@ -50,7 +64,7 @@ export default function ReviewTask() {
         <Row label="Contact person" value={task.findings?.contactPerson} />
         <Row label="Contact detail" value={task.findings?.contactDetail} />
         <Row label="Relationship" value={task.findings?.relationship} />
-        <Row label="Confirmed" value={task.findings?.confirmed ? 'Yes' : 'No'} />
+        <Row label="Matches claim" value={task.findings?.confirmed ? 'Yes' : 'No'} />
         <Row label="Notes" value={task.findings?.notes} />
       </div>
 
